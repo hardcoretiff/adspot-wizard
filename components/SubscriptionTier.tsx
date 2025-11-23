@@ -22,17 +22,18 @@ const SubscriptionTier: React.FC<SubscriptionTierProps> = ({
   isPopular,
   billingCycle,
   onSelect,
-  isSelected
+  isSelected,
 }) => {
   const price = billingCycle === 'monthly' ? monthlyPrice : annualPrice;
-  
+
   return (
-    <div 
+    <div
       onClick={onSelect}
       className={`relative rounded-xl p-6 cursor-pointer transition-all duration-300 border-2 flex flex-col
-        ${isSelected 
-          ? 'bg-zinc-900 border-red-600 transform scale-[1.02] shadow-2xl shadow-red-900/20' 
-          : 'bg-zinc-950 border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900'
+        ${
+          isSelected
+            ? 'bg-zinc-900 border-red-600 transform scale-[1.02] shadow-2xl shadow-red-900/20'
+            : 'bg-zinc-950 border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900'
         }
       `}
     >
@@ -62,11 +63,12 @@ const SubscriptionTier: React.FC<SubscriptionTierProps> = ({
         ))}
       </div>
 
-      <button 
+      <button
         className={`w-full py-2 rounded-lg font-bold text-sm transition-colors
-          ${isSelected 
-            ? 'bg-red-600 text-white hover:bg-red-700' 
-            : 'bg-zinc-800 text-gray-300 hover:bg-zinc-700 hover:text-white'
+          ${
+            isSelected
+              ? 'bg-red-600 text-white hover:bg-red-700'
+              : 'bg-zinc-800 text-gray-300 hover:bg-zinc-700 hover:text-white'
           }`}
       >
         {isSelected ? 'Selected' : 'Select Plan'}

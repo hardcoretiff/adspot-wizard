@@ -1,5 +1,5 @@
 import React from 'react';
-import { PenTool, Link as LinkIcon } from 'lucide-react';
+import { Link as LinkIcon } from 'lucide-react';
 import { CampaignData } from '../../types';
 
 interface ContentStepProps {
@@ -13,7 +13,9 @@ const ContentStep: React.FC<ContentStepProps> = ({ data, onChange }) => {
       <div className="flex items-center justify-between">
         <div className="space-y-2">
           <h2 className="text-3xl font-bold text-white">Ad Creative</h2>
-          <p className="text-gray-400">Craft your message. Need help? You can request AI assistance after subscription.</p>
+          <p className="text-gray-400">
+            Craft your message. Need help? You can request AI assistance after subscription.
+          </p>
         </div>
       </div>
 
@@ -51,7 +53,9 @@ const ContentStep: React.FC<ContentStepProps> = ({ data, onChange }) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Call to Action (CTA)</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Call to Action (CTA)
+              </label>
               <select
                 value={data.callToAction}
                 onChange={(e) => onChange('callToAction', e.target.value)}
@@ -91,27 +95,36 @@ const ContentStep: React.FC<ContentStepProps> = ({ data, onChange }) => {
                 ) : (
                   <span className="text-gray-400 font-bold text-2xl opacity-20">AD IMAGE</span>
                 )}
-                <div className="absolute top-2 right-2 bg-white/90 px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-500 border border-gray-300">Ad</div>
+                <div className="absolute top-2 right-2 bg-white/90 px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-500 border border-gray-300">
+                  Ad
+                </div>
               </div>
-              
+
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  {data.brand.logoUrl && <img src={data.brand.logoUrl} className="w-6 h-6 rounded-full object-cover" />}
-                  <span className="text-xs font-bold text-gray-800">{data.brand.companyName || 'Your Company'}</span>
+                  {data.brand.logoUrl && (
+                    <img src={data.brand.logoUrl} className="w-6 h-6 rounded-full object-cover" />
+                  )}
+                  <span className="text-xs font-bold text-gray-800">
+                    {data.brand.companyName || 'Your Company'}
+                  </span>
                 </div>
-                
+
                 <h4 className="font-bold text-gray-900 text-lg leading-tight mb-2">
                   {data.headline || 'Your Headline Here'}
                 </h4>
                 <p className="text-sm text-gray-600 mb-4 line-clamp-3">
-                  {data.bodyText || 'Your ad body text will appear here. Describe your product or service to entice customers.'}
+                  {data.bodyText ||
+                    'Your ad body text will appear here. Describe your product or service to entice customers.'}
                 </p>
-                
+
                 <div className="flex justify-between items-center bg-gray-50 p-2 rounded-lg border border-gray-100">
-                   <span className="text-xs text-gray-500 truncate flex-1 mr-2">{data.destinationUrl || 'yoursite.com'}</span>
-                   <button className="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                     {data.callToAction}
-                   </button>
+                  <span className="text-xs text-gray-500 truncate flex-1 mr-2">
+                    {data.destinationUrl || 'yoursite.com'}
+                  </span>
+                  <button className="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+                    {data.callToAction}
+                  </button>
                 </div>
               </div>
             </div>

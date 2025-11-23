@@ -1,4 +1,3 @@
-
 import { CampaignData } from '../types';
 
 export interface AutomationStep {
@@ -23,11 +22,10 @@ export const initialAutomationSteps: AutomationStep[] = [
  * This runs in the browser to demonstrate the UX.
  */
 export const runAutomationSimulation = async (
-  campaignData: CampaignData, 
-  updateStep: (id: string, status: 'loading' | 'completed') => void
+  campaignData: CampaignData,
+  updateStep: (id: string, status: 'loading' | 'completed') => void,
 ) => {
-  
-  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   // 1. Payment
   updateStep('payment', 'loading');
@@ -68,12 +66,12 @@ export const runAutomationSimulation = async (
  * ==================================================================
  * 🔐 FINAL STEP: GENERATE ACCESS TOKEN
  * ==================================================================
- * 
+ *
  * You have the Client ID, Client Secret, and Auth Code.
- * 
+ *
  * --- WINDOWS POWERSHELL COMMAND (Use this one!) ---
  * curl.exe -X POST "https://services.leadconnectorhq.com/oauth/token" -H "Content-Type: application/x-www-form-urlencoded" -d "client_id=69217749b497429cefe810f7-mib56whj" -d "client_secret=fe647298-c78a-468f-bc06-c0495d363b55" -d "grant_type=authorization_code" -d "code=PASTE_NEW_CODE_HERE"
- * 
+ *
  * --- MAC / LINUX COMMAND ---
  * curl -X POST https://services.leadconnectorhq.com/oauth/token \
  *   -H "Content-Type: application/x-www-form-urlencoded" \
@@ -81,7 +79,7 @@ export const runAutomationSimulation = async (
  *   -d "client_secret=fe647298-c78a-468f-bc06-c0495d363b55" \
  *   -d "grant_type=authorization_code" \
  *   -d "code=PASTE_NEW_CODE_HERE"
- * 
+ *
  * Then paste the "access_token" into your .env file.
  */
 

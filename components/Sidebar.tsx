@@ -7,8 +7,11 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
-  const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Hi! I\'m your AdSpot assistant. I can help you navigate the campaign setup. Any questions so far?' }
+  const [messages] = useState([
+    {
+      type: 'bot',
+      text: "Hi! I'm your AdSpot assistant. I can help you navigate the campaign setup. Any questions so far?",
+    },
   ]);
 
   return (
@@ -22,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       </button>
 
       {/* Sidebar Panel */}
-      <div 
+      <div
         className={`fixed top-0 right-0 h-full w-80 bg-neutral-900 border-l border-neutral-800 shadow-2xl transform transition-transform duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex flex-col h-full">
@@ -40,12 +43,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
           {/* Chat Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div 
+              <div
+                key={idx}
+                className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
                   className={`max-w-[85%] p-3 rounded-xl text-sm 
-                    ${msg.type === 'user' 
-                      ? 'bg-red-600 text-white rounded-br-none' 
-                      : 'bg-neutral-800 text-gray-200 rounded-bl-none border border-neutral-700'
+                    ${
+                      msg.type === 'user'
+                        ? 'bg-red-600 text-white rounded-br-none'
+                        : 'bg-neutral-800 text-gray-200 rounded-bl-none border border-neutral-700'
                     }`}
                 >
                   {msg.text}
@@ -60,9 +67,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
               AI can assist with strategy after subscription
             </div>
             <div className="relative">
-              <input 
-                type="text" 
-                placeholder="Type a message..." 
+              <input
+                type="text"
+                placeholder="Type a message..."
                 className="w-full bg-neutral-950 border border-neutral-700 rounded-lg pl-3 pr-10 py-2 text-sm text-white focus:ring-1 focus:ring-red-500 outline-none"
               />
               <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 hover:text-red-400">

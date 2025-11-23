@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -20,7 +19,7 @@ const GHL_CONFIG = {
   companyId: process.env.GHL_COMPANY_ID,
   snapshotTierMini: process.env.SNAPSHOT_TIER_MINI,
   snapshotTierScale: process.env.SNAPSHOT_TIER_SCALE,
-  snapshotTierMax: process.env.SNAPSHOT_TIER_MAX
+  snapshotTierMax: process.env.SNAPSHOT_TIER_MAX,
 };
 
 // --- GHL SERVICE LOGIC (Moved from Frontend) ---
@@ -28,23 +27,23 @@ const GHL_CONFIG = {
 const getHeaders = () => {
   if (GHL_CONFIG.accessToken) {
     return {
-      'Authorization': `Bearer ${GHL_CONFIG.accessToken}`,
-      'Version': '2021-07-28',
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${GHL_CONFIG.accessToken}`,
+      Version: '2021-07-28',
+      'Content-Type': 'application/json',
     };
   }
   if (GHL_CONFIG.apiKey) {
     return {
-      'Authorization': `Bearer ${GHL_CONFIG.apiKey}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${GHL_CONFIG.apiKey}`,
+      'Content-Type': 'application/json',
     };
   }
-  throw new Error("Missing Auth Token");
+  throw new Error('Missing Auth Token');
 };
 
 const createSubAccount = async (userData, tier) => {
   console.log(`Creating Subaccount for ${userData.email}...`);
-  
+
   let snapshotId = GHL_CONFIG.snapshotTierMini;
   if (tier === 'scale') snapshotId = GHL_CONFIG.snapshotTierScale;
   if (tier === 'max') snapshotId = GHL_CONFIG.snapshotTierMax;
@@ -59,13 +58,13 @@ const createSubAccount = async (userData, tier) => {
     state: 'CA',
     country: 'US',
     timezone: 'US/Pacific',
-    snapshotId: snapshotId
+    snapshotId: snapshotId,
   };
 
   const response = await fetch('https://services.leadconnectorhq.com/locations/', {
     method: 'POST',
     headers: getHeaders(),
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
@@ -80,9 +79,9 @@ const createSubAccount = async (userData, tier) => {
 const uploadLogo = async (locationId, base64String) => {
   try {
     console.log(`Uploading logo to ${locationId}...`);
-    
+
     // Remove header (data:image/png;base64,)
-    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, "");
+    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
 
     const form = new FormData();
@@ -96,21 +95,21 @@ const uploadLogo = async (locationId, base64String) => {
     const response = await fetch('https://services.leadconnectorhq.com/medias/upload-file', {
       method: 'POST',
       headers: headers,
-      body: form
+      body: form,
     });
 
-    if (!response.ok) throw new Error("Upload Failed");
+    if (!response.ok) throw new Error('Upload Failed');
     const data = await response.json();
     return data.fileUrl || data.url;
   } catch (e) {
-    console.error("Logo upload failed", e);
-    return "";
+    console.error('Logo upload failed', e);
+    return '';
   }
 };
 
 const createContact = async (locationId, userData, campaignData) => {
   console.log(`Creating Contact in ${locationId}...`);
-  
+
   let balance = 10000;
   if (campaignData.subscriptionTier === 'scale') balance = 25000;
   if (campaignData.subscriptionTier === 'max') balance = 100000;
@@ -126,14 +125,14 @@ const createContact = async (locationId, userData, campaignData) => {
     customFields: [
       { key: 'subscription_tier', value: campaignData.subscriptionTier },
       { key: 'billing_cycle', value: campaignData.billingCycle },
-      { key: 'impressions_balance', value: balance }
-    ]
+      { key: 'impressions_balance', value: balance },
+    ],
   };
 
   const response = await fetch('https://services.leadconnectorhq.com/contacts/', {
     method: 'POST',
     headers: getHeaders(),
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   const data = await response.json();
@@ -142,7 +141,7 @@ const createContact = async (locationId, userData, campaignData) => {
 
 const createCampaignObject = async (locationId, contactId, campaign, logoUrl) => {
   console.log(`Creating Campaign Object...`);
-  
+
   const payload = {
     locationId,
     objectKey: 'campaign',
@@ -160,32 +159,31 @@ const createCampaignObject = async (locationId, contactId, campaign, logoUrl) =>
       primary_color: campaign.brand.primaryColor,
       retargeting_pixel_id: campaign.retargetingPixelId,
       heatmap_id: campaign.heatmapId,
-      stripe_price_id: campaign.stripePriceId
+      stripe_price_id: campaign.stripePriceId,
     },
     associations: {
-      contacts: [contactId]
-    }
+      contacts: [contactId],
+    },
   };
 
   await fetch('https://services.leadconnectorhq.com/objects/records', {
     method: 'POST',
     headers: getHeaders(),
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 };
-
 
 // --- API ROUTE ---
 
 app.post('/api/onboard', async (req, res) => {
   try {
     const { campaignData, userData } = req.body;
-    
+
     // 1. Create Subaccount
     const locationId = await createSubAccount(userData, campaignData.subscriptionTier);
-    
+
     // 2. Upload Logo
-    let logoUrl = "";
+    let logoUrl = '';
     if (campaignData.brand.logoUrl) {
       logoUrl = await uploadLogo(locationId, campaignData.brand.logoUrl);
     }
@@ -198,11 +196,11 @@ app.post('/api/onboard', async (req, res) => {
 
     res.json({ success: true, locationId });
   } catch (error) {
-    console.error("Backend Error:", error);
+    console.error('Backend Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`AdSpot Backend running on http://localhost:${PORT}`);
+  console.log(`AdSpot Backend running on http://localhost:${3000}`);
 });

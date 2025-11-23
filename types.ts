@@ -1,8 +1,7 @@
-
 export enum ExperienceLevel {
   NONE = 'none',
   SOME = 'some',
-  EXPERT = 'expert'
+  EXPERT = 'expert',
 }
 
 export interface BrandProfile {
@@ -25,15 +24,15 @@ export interface BrandProfile {
 export interface CampaignData {
   // Step 1
   experienceLevel: ExperienceLevel;
-  
+
   // Step 2
   campaignName: string;
   campaignGoal: string;
   businessType: string;
-  
+
   // Step 3 (New)
   brand: BrandProfile;
-  
+
   // Step 4
   headline: string;
   bodyText: string;
@@ -43,7 +42,7 @@ export interface CampaignData {
   // Step 5 - Tracking
   retargetingPixelId: string;
   heatmapId: string;
-  
+
   // Step 6 - Plan
   subscriptionTier: 'mini' | 'scale' | 'max' | null;
   billingCycle: 'monthly' | 'annual';
@@ -64,7 +63,7 @@ export const initialCampaignData: CampaignData = {
     fontFamily: 'Inter',
     logoUrl: null,
     brandGuidelinesUrl: null,
-    socialLinks: {}
+    socialLinks: {},
   },
   headline: '',
   bodyText: '',
@@ -73,5 +72,5 @@ export const initialCampaignData: CampaignData = {
   retargetingPixelId: 'ADS-' + Math.random().toString(36).substring(2, 10).toUpperCase(),
   heatmapId: 'HM-' + Math.random().toString(36).substring(2, 10).toUpperCase(),
   subscriptionTier: null,
-  billingCycle: 'monthly'
+  billingCycle: 'monthly',
 };

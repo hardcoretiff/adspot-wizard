@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Circle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 interface StepWizardProps {
   currentStep: number;
@@ -8,7 +8,12 @@ interface StepWizardProps {
   children: React.ReactNode;
 }
 
-const StepWizard: React.FC<StepWizardProps> = ({ currentStep, totalSteps, stepTitles, children }) => {
+const StepWizard: React.FC<StepWizardProps> = ({
+  currentStep,
+  totalSteps,
+  stepTitles,
+  children,
+}) => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Progress Bar */}
@@ -16,7 +21,7 @@ const StepWizard: React.FC<StepWizardProps> = ({ currentStep, totalSteps, stepTi
         <div className="flex items-center justify-between relative">
           {/* Connector Line */}
           <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-adspot-gray -z-10"></div>
-          <div 
+          <div
             className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-red-600 transition-all duration-500 -z-10"
             style={{ width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%` }}
           ></div>
@@ -28,15 +33,25 @@ const StepWizard: React.FC<StepWizardProps> = ({ currentStep, totalSteps, stepTi
 
             return (
               <div key={index} className="flex flex-col items-center bg-adspot-black px-2">
-                <div 
+                <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-colors duration-300 
-                    ${isActive ? 'border-red-600 bg-black text-red-600' : 
-                      isCompleted ? 'border-red-600 bg-red-600 text-white' : 
-                      'border-gray-600 bg-black text-gray-600'}`}
+                    ${
+                      isActive
+                        ? 'border-red-600 bg-black text-red-600'
+                        : isCompleted
+                          ? 'border-red-600 bg-red-600 text-white'
+                          : 'border-gray-600 bg-black text-gray-600'
+                    }`}
                 >
-                  {isCompleted ? <CheckCircle2 size={18} /> : <span className="text-sm font-bold">{stepNum}</span>}
+                  {isCompleted ? (
+                    <CheckCircle2 size={18} />
+                  ) : (
+                    <span className="text-sm font-bold">{stepNum}</span>
+                  )}
                 </div>
-                <span className={`mt-2 text-xs font-medium uppercase tracking-wider ${isActive || isCompleted ? 'text-white' : 'text-gray-600'}`}>
+                <span
+                  className={`mt-2 text-xs font-medium uppercase tracking-wider ${isActive || isCompleted ? 'text-white' : 'text-gray-600'}`}
+                >
                   {title}
                 </span>
               </div>

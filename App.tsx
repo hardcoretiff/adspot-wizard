@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from './components/Header';
 import StepWizard from './components/StepWizard';
@@ -19,16 +18,16 @@ import { runAutomationSimulation, initialAutomationSteps, AutomationStep } from 
 const STRIPE_PLANS = {
   mini: {
     monthly: 'price_mini_monthly_id', // Replace with actual Stripe Price ID
-    annual: 'price_mini_annual_id'
+    annual: 'price_mini_annual_id',
   },
   scale: {
     monthly: 'price_scale_monthly_id',
-    annual: 'price_scale_annual_id'
+    annual: 'price_scale_annual_id',
   },
   max: {
     monthly: 'price_max_monthly_id',
-    annual: 'price_max_annual_id'
-  }
+    annual: 'price_max_annual_id',
+  },
 };
 
 const App: React.FC = () => {
@@ -48,40 +47,40 @@ const App: React.FC = () => {
     'Experience',
     'Goals',
     'Brand Identity', // New Step
-    'Ad Creative',    // Was Content
-    'Tracking',       // New Tracking Step
-    'Subscription'
+    'Ad Creative', // Was Content
+    'Tracking', // New Tracking Step
+    'Subscription',
   ];
 
   const handleNext = () => {
     if (currentStep < steps.length) {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep((prev) => prev - 1);
     }
   };
 
-  const updateField = (field: string, value: any) => {
-    setCampaignData(prev => ({ ...prev, [field]: value }));
+  const updateField = (field: string, value: unknown) => {
+    setCampaignData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const updateBrandField = (field: keyof BrandProfile, value: any) => {
-    setCampaignData(prev => ({
+  const updateBrandField = (field: keyof BrandProfile, value: unknown) => {
+    setCampaignData((prev) => ({
       ...prev,
       brand: {
         ...prev.brand,
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
   const handlePayment = async () => {
     if (!selectedTier) return;
-    
+
     setIsSubmitting(true);
     setShowOverlay(true);
 
@@ -93,14 +92,14 @@ const App: React.FC = () => {
       ...campaignData,
       subscriptionTier: selectedTier,
       billingCycle: billingCycle,
-      stripePriceId: stripePriceId
+      stripePriceId: stripePriceId,
     };
 
     // Helper to update step status in UI
     const updateStepStatus = (id: string, status: 'loading' | 'completed') => {
-      setAutomationSteps(prev => prev.map(step => 
-        step.id === id ? { ...step, status } : step
-      ));
+      setAutomationSteps((prev) =>
+        prev.map((step) => (step.id === id ? { ...step, status } : step)),
+      );
     };
 
     try {
@@ -111,68 +110,63 @@ const App: React.FC = () => {
       // 2. Run the REAL Backend Process
       // We assume user data is mock for now, but in real app this comes from auth/form
       const userData = {
-        email: "demo.user@example.com", 
-        firstName: "Demo",
-        lastName: "User",
-        companyName: finalData.brand.companyName || "New Agency Client",
-        phone: "+15550000000"
+        email: 'demo.user@example.com',
+        firstName: 'Demo',
+        lastName: 'User',
+        companyName: finalData.brand.companyName || 'New Agency Client',
+        phone: '+15550000000',
       };
 
       const backendPromise = fetch('http://localhost:3001/api/onboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ campaignData: finalData, userData })
+        body: JSON.stringify({ campaignData: finalData, userData }),
       });
 
       // Wait for both visuals and reality to finish
       await Promise.all([simulationPromise, backendPromise]);
-      
+
       // Success handling
       setTimeout(() => {
         setIsSubmitting(false);
         setShowOverlay(false);
         setIsSuccess(true); // Switch to Success View
       }, 1000);
-
     } catch (error) {
-      console.error("Automation failed", error);
+      console.error('Automation failed', error);
       setIsSubmitting(false);
       setShowOverlay(false);
-      alert("An error occurred during setup. Check backend console.");
+      alert('An error occurred during setup. Check backend console.');
     }
   };
 
   const handleDashboardRedirect = () => {
     // Redirect to the production dashboard URL
-    window.location.href = "https://app.adspot.co";
+    window.location.href = 'https://app.adspot.co';
   };
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white">
       {/* Header now controls the Sidebar */}
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
-      
+
       <main className="pb-24">
         {isSuccess ? (
           <SuccessView onGoToDashboard={handleDashboardRedirect} />
         ) : (
-          <StepWizard 
-            currentStep={currentStep} 
-            totalSteps={steps.length} 
-            stepTitles={steps}
-          >
+          <StepWizard currentStep={currentStep} totalSteps={steps.length} stepTitles={steps}>
             {currentStep === 1 && (
-              <ExperienceStep 
-                selectedLevel={campaignData.experienceLevel} 
+              <ExperienceStep
+                selectedLevel={campaignData.experienceLevel}
                 onSelect={(level) => {
                   updateField('experienceLevel', level);
                   handleNext();
-                }} 
+                }}
               />
             )}
 
             {currentStep === 2 && (
-              <GoalsStep 
+              <GoalsStep
                 campaignName={campaignData.campaignName}
                 campaignGoal={campaignData.campaignGoal}
                 businessType={campaignData.businessType}
@@ -181,21 +175,13 @@ const App: React.FC = () => {
             )}
 
             {currentStep === 3 && (
-              <BrandStep 
-                data={campaignData.brand}
-                updateData={updateBrandField}
-              />
+              <BrandStep data={campaignData.brand} updateData={updateBrandField} />
             )}
 
-            {currentStep === 4 && (
-              <ContentStep 
-                data={campaignData}
-                onChange={updateField}
-              />
-            )}
-            
+            {currentStep === 4 && <ContentStep data={campaignData} onChange={updateField} />}
+
             {currentStep === 5 && (
-              <TrackingStep 
+              <TrackingStep
                 pixelId={campaignData.retargetingPixelId}
                 heatmapId={campaignData.heatmapId}
               />
@@ -205,17 +191,19 @@ const App: React.FC = () => {
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="text-center mb-10">
                   <h2 className="text-3xl font-bold text-white mb-4">Select Your Plan</h2>
-                  <p className="text-gray-400 mb-8">Choose the package that fits your growth goals.</p>
-                  
+                  <p className="text-gray-400 mb-8">
+                    Choose the package that fits your growth goals.
+                  </p>
+
                   {/* Billing Toggle */}
                   <div className="inline-flex items-center bg-zinc-900 rounded-lg p-1 border border-zinc-800">
-                    <button 
+                    <button
                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${billingCycle === 'monthly' ? 'bg-red-600 text-white shadow' : 'text-gray-400 hover:text-white'}`}
                       onClick={() => setBillingCycle('monthly')}
                     >
                       Monthly
                     </button>
-                    <button 
+                    <button
                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${billingCycle === 'annual' ? 'bg-red-600 text-white shadow' : 'text-gray-400 hover:text-white'}`}
                       onClick={() => setBillingCycle('annual')}
                     >
@@ -225,7 +213,7 @@ const App: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <SubscriptionTier 
+                  <SubscriptionTier
                     title="Mini Max Plan"
                     monthlyPrice={300}
                     annualPrice={2999}
@@ -240,13 +228,13 @@ const App: React.FC = () => {
                       'Calendar & CRM',
                       'Opportunities',
                       'All Reporting',
-                      'QR Codes'
+                      'QR Codes',
                     ]}
                     billingCycle={billingCycle}
                     onSelect={() => setSelectedTier('mini')}
                     isSelected={selectedTier === 'mini'}
                   />
-                  <SubscriptionTier 
+                  <SubscriptionTier
                     title="Scale + Grow Plan"
                     monthlyPrice={625}
                     annualPrice={6999}
@@ -261,14 +249,14 @@ const App: React.FC = () => {
                       'GMB Messaging & Call Tracking',
                       'Missed Call Text Back',
                       'Documents & Contracts',
-                      'Tons of Marketing Templates'
+                      'Tons of Marketing Templates',
                     ]}
                     isPopular
                     billingCycle={billingCycle}
                     onSelect={() => setSelectedTier('scale')}
                     isSelected={selectedTier === 'scale'}
                   />
-                  <SubscriptionTier 
+                  <SubscriptionTier
                     title="Maximum Exposure"
                     monthlyPrice={2299}
                     annualPrice={19999}
@@ -282,7 +270,7 @@ const App: React.FC = () => {
                       'Forms & Surveys',
                       'Trigger Links',
                       'SMS & Email Templates',
-                      'GoKollab & Quizzes'
+                      'GoKollab & Quizzes',
                     ]}
                     billingCycle={billingCycle}
                     onSelect={() => setSelectedTier('max')}
@@ -299,32 +287,34 @@ const App: React.FC = () => {
       {!isSuccess && (
         <div className="fixed bottom-0 left-0 w-full bg-adspot-black border-t border-neutral-800 p-4 z-40">
           <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <button 
+            <button
               onClick={handleBack}
               disabled={currentStep === 1}
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all
-                ${currentStep === 1 
-                  ? 'text-gray-600 cursor-not-allowed' 
-                  : 'text-gray-300 hover:text-white hover:bg-neutral-900'
+                ${
+                  currentStep === 1
+                    ? 'text-gray-600 cursor-not-allowed'
+                    : 'text-gray-300 hover:text-white hover:bg-neutral-900'
                 }`}
             >
               <ArrowLeft size={18} /> Back
             </button>
 
             {currentStep === steps.length ? (
-              <button 
+              <button
                 onClick={handlePayment}
                 disabled={!selectedTier || isSubmitting}
                 className={`flex items-center gap-2 px-8 py-3 rounded-lg font-bold text-white transition-all shadow-lg
-                  ${!selectedTier || isSubmitting
-                    ? 'bg-gray-700 cursor-not-allowed' 
-                    : 'bg-red-600 hover:bg-red-700 hover:scale-105 shadow-red-900/30'
+                  ${
+                    !selectedTier || isSubmitting
+                      ? 'bg-gray-700 cursor-not-allowed'
+                      : 'bg-red-600 hover:bg-red-700 hover:scale-105 shadow-red-900/30'
                   }`}
               >
                 {isSubmitting ? <Loader2 className="animate-spin" /> : 'Proceed to Payment'}
               </button>
             ) : (
-              <button 
+              <button
                 onClick={handleNext}
                 className="flex items-center gap-2 px-8 py-3 bg-white text-black rounded-lg font-bold hover:bg-gray-200 transition-all hover:scale-105"
               >
