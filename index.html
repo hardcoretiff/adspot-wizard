@@ -37,26 +37,38 @@
         background-color: #000000;
         color: #ffffff;
       }
-
       ::-webkit-scrollbar {
         width: 8px;
       }
-
       ::-webkit-scrollbar-track {
         background: #121212;
       }
-
       ::-webkit-scrollbar-thumb {
         background: #333;
         border-radius: 4px;
       }
-
       ::-webkit-scrollbar-thumb:hover {
         background: #555;
       }
     </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://aistudiocdn.com/react@^19.2.0",
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+          "react/": "https://aistudiocdn.com/react@^19.2.0/",
+          "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+          "vite": "https://aistudiocdn.com/vite@^7.2.4",
+          "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+          "dotenv": "https://aistudiocdn.com/dotenv@^17.2.3",
+          "express": "https://aistudiocdn.com/express@^5.1.0",
+          "cors": "https://aistudiocdn.com/cors@^2.8.5",
+          "form-data": "https://aistudiocdn.com/form-data@^4.0.5",
+          "body-parser": "https://aistudiocdn.com/body-parser@^2.2.0"
+        }
+      }
+    </script>
   </head>
-
   <body>
     <div id="root"></div>
     <!-- THIS LINE IS CRITICAL FOR VERCEL -->

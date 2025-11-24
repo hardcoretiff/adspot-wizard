@@ -7,37 +7,24 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node backend/app.cjs",
-    "backend:start": "node backend/app.cjs",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --config .eslintrc.cjs",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix --config .eslintrc.cjs",
-    "format": "prettier --write .",
-    "test": "echo \"No tests configured\" && exit 0"
+    "start": "node backend/index.js"
   },
   "dependencies": {
-    "body-parser": "^1.20.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.263.1",
+    "express": "^4.18.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
     "form-data": "^4.0.0",
-    "lucide-react": "^0.263.1",
-    "node-fetch": "^3.3.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "body-parser": "^1.20.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^8.47.0",
-    "@typescript-eslint/parser": "^8.47.0",
     "@vitejs/plugin-react": "^4.0.3",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "prettier": "^3.6.2",
     "typescript": "^5.0.2",
-    "vite": "^7.2.4"
+    "vite": "^4.4.5"
   },
   "engines": {
     "node": ">=18.0.0"
