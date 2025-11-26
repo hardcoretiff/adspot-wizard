@@ -8,5 +8,6 @@ export default defineConfig({
   },
   server: {
     port: 3000, // Default for local dev
+    allowedhosts: [ac535263-027f-42b5-a3da-eddd64671cb6-00-2so8mpo8xss8j.kirk.replit.dev],                            
   },
 });
